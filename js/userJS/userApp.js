@@ -1,5 +1,5 @@
 var userApp = angular.module("userApp", ["ngRoute"]);
-const path = "http://localhost:8080/Web_NoiThat";//link server
+const path = "http://webnoithat.j.layershift.co.uk";//link server
 var urlUploadFile = "http://127.0.0.1:5500/update/";
 
 /*---------------------routing---------------------*/
