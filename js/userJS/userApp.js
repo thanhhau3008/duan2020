@@ -23,6 +23,31 @@ userApp.controller("managerProduct", function ($scope, $http,
 		base64: "",
 		root: ""
 	}
+/*--------------------*/
+$scope.begin = 0;
+	$scope.numPage=1;
+	$scope.pageCount = Math.ceil($scope.products.length /4);
+	$scope.next = function(){
+		if($scope.numPage<4){
+			$scope.numPage++;
+			console.log($scope.begin)
+			return $scope.begin += 8;
+		}else{
+			return false;
+		}
+			
+	}
+	$scope.prev = function(){
+		if($scope.numPage>1){
+			$scope.numPage--;
+			return $scope.begin -= 8;
+		}else{
+			return false;
+		}
+			
+	}
+/*-----------------------*/
+
 	_refreshPageData();
 	/*-----------------API_Select---------------------*/
 	$scope.findByName = function () {
