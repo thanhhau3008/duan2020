@@ -1,0 +1,64 @@
+<div ng-controller="managerUser">
+  <div class="row justify-content-end">
+    <form class="mt-2 mr-2" ng-submit="findByName">
+      <input type="text" id="textSearch">
+      <input type="submit" name="" value="Tìm Kiếm">
+    </form>
+  </div>
+  <div class="row mt-2 list-cart">
+    <div class="col-sm-12 col-md-12 m-auto backg-white p-0">
+      <div class="col-3 col-md-3 float-left text-center">Tên Người Dùng</div>
+      <div class="col-3 col-md-3 float-left text-center">Địa Chỉ</div>
+      <div class="col-3 col-md-3 float-left text-center hidden-value d-md-block">Emai/Số Điện Thoại</div>
+      <div class="col-3 col-md-3 float-left text-center"></div>
+    </div>
+    <div class="col-sm-12 col-md-12 m-auto row-align m-auto backg-white" ng-repeat="user in users">
+      <div class="col-3 col-md-3 float-left text-center">
+        <p class="text-dark">{{user.name}}</p>
+      </div>
+      <div class="col-md-3 col-sm-2 float-left d-md-block hidden-value text-center">
+        <p class="text-dark">{{user.adress}}</p>
+      </div>
+      <div class="col-md-3 col-sm-2 float-left text-center">
+        <p>{{user.phoneOrEmail}}</p>
+      </div>
+      <div class="col-md-3 col-sm-2 float-left text-center">
+        <a href="#">Xóa</a> | <a data-toggle="collapse" data-target="#displayDeltail{{$index+1}}"
+          class="nav-link d-inline p-0">Sửa</a>
+      </div>
+      <div class="backg-white collapse custom-deltail" id="displayDeltail{{$index+1}}">
+        <div class="col-9 col-lg-5 m-auto">
+          <form ng-submit="updateUser()">
+            <input type="hidden" id="idUser" value="{{user.id}}">
+            <div class="col">
+              <input type="text" class="form-control" id="name" value="{{user.name}}">
+            </div>
+            <div class="col">
+              <input type="text" class="form-control" id="password" value="{{user.password}}">
+            </div>
+            <div class="col">
+              <input type="date" class="form-control" id="birthday" value="{{user.birthDay}}">
+            </div>
+            <div class="col">
+              <input type="text" class="form-control" id="phoneOrEmail" value="{{user.phoneOrEmail}}">
+            </div>
+            <div class="col">
+              <input type="text" class="form-control" id="adress" value="{{user.adress}}">
+            </div>
+            <div class="col">
+              <input type="file" id="pictureUse">
+            </div>
+            
+            <div class="col"><!--checked-->
+              <input type="radio" name="position" value="1">Admin
+              <input type="radio" name="position" value="0">User
+            </div>
+            <div class="col">
+              <input type="submit" value="Cập Nhập" class="form-control p-0">
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

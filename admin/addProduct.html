@@ -1,0 +1,32 @@
+        <div ng-controller="managerProduct">
+          <div class="row">
+            <h2 class="custom-input">Thêm Sản Phẩm</h2>
+          </div>
+          <form ng-submit="addProduct()">
+            <div class="form-row">
+              <div class="col-10 col-md-5 custom-input">
+                <input type="text" class="form-control" placeholder="Tên Sản Phẩm" ng-model="form.productName">
+              </div>
+              <div class="col-10 col-md-5 custom-input">
+                <input type="text" class="form-control" placeholder="Giá Sản Phẩm" ng-model="form.price">
+              </div>
+              <div class="col-10 col-md-5 custom-input">
+                <input type="text" class="form-control" placeholder="Danh Mục" ng-model="form.category">
+              </div>
+              <div class="col-10 col-md-5 custom-input">
+                <input type="number" class="form-control" value="0" ng-model="form.quantity">
+              </div>
+              <div class="col-10 col-md-5 custom-input">
+                <input type="file" class="form-control" id="inputFile">
+              </div>
+              <div class="col-10 col-md-11 custom-input">
+                <textarea class="form-control" placeholder="Mô Tả" ng-model="form.description"></textarea>
+              </div>
+              <div class="col-10 col-md-5 custom-input text-center">
+                <input type="submit" name="" Value="Thêm">
+                <input type="reset" name="" Value="Mới">
+              </div>
+            </div>
+          </form>
+        </div>
+       
