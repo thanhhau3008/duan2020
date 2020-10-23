@@ -1,0 +1,52 @@
+<section class="banner-bottom-w3layouts py-lg-5 py-md-5 py-4" id="services">
+    <div class="container" ng-controller="managerProduct">
+        <div class="product_hot" ng-init="getNewProduct()">
+            <h1 class='txtretroshadow'>Sản Phẩm Mới Nhất</h1>
+            <hr>
+            <div class="row">
+                <div class="col-sm-3" ng-repeat="productnew in productsNew | limitTo : 8">
+                    <div class="card" style="width: 100%;">
+                        <img src="./images/{{productnew.pictureProduct}}" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <p class="card-text">{{productnew.productName}}</p>
+                        </div>
+                        <div class="card-footer">
+                            <div style="float: left;">
+                                <p class="card-text">{{productnew.price}}</p>
+                            </div>
+                            <div style="float: left;"><a href="#!ProductDetail/{{productnew.id}}" class="btn btn-primary">đặt hàng</a></div>
+                        </div>
+                    </div>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- //services -->
+<!--gallery  -->
+<section class="gallery py-md-5 py-4" id="projects">
+    <div class="container" ng-controller="managerProduct">
+        <div class="product_hot" ng-init="_refreshPageData()">
+            <h1 class='txtretroshadow'>Sản Phẩm Bán Chạy</h1>
+            <hr>
+            <div class="row">
+                <div class="col-sm-3" ng-repeat="product in products">
+                    <div class="card" style="width: 100%;">
+                        <img src="./images/{{product.pictureProduct}}" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <p class="card-text">{{product.productName}}</p>
+                        </div>
+                        <div class="card-footer">
+                            <div style="float: left;">
+                                <p class="card-text">{{product.price}}</p>
+                            </div>
+                            <div style="float: left;"><a href="#!ProductDetail/{{productnew.id}}" class="btn btn-primary">đặt hàng</a></div>
+                        </div>
+                    </div>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
