@@ -23,7 +23,7 @@ userApp.controller("managerProduct", function ($scope, $http,
 		base64: "",
 		root: ""
 	}
-
+	_refreshPageData();
 	/*-----------------API_Select---------------------*/
 	$scope.findByName = function () {
 		$http({
