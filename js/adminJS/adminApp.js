@@ -1,29 +1,17 @@
 var adminApp = angular.module("adminApp", ["ngRoute"]);
-<<<<<<< HEAD
 const path = "http://webnoithat.j.layershift.co.uk";//link server
 var urlUploadFile = "C://update/";
-=======
-const path = "http://localhost:8080/Web_NoiThat";//link server
-var urlUploadFile = "http://127.0.0.1:5500/update/";
->>>>>>> 21f8dea7436d84224457223eee30559be6eb07bd
-
 /*---------------------routing---------------------*/
 adminApp.controller("managerProduct", function ($scope, $http,
 	$routeParams) {
 	$scope.products = [];
-<<<<<<< HEAD
-=======
 	$scope.productsNew = [];
->>>>>>> 21f8dea7436d84224457223eee30559be6eb07bd
 	$scope.form = {
 		id: -1,
 		productName: "",
 		price: 0,
 		category: "",
-<<<<<<< HEAD
-=======
 		note: "",
->>>>>>> 21f8dea7436d84224457223eee30559be6eb07bd
 		description: "",
 		quantity: 0,
 		pictureProduct: "",
@@ -37,17 +25,8 @@ adminApp.controller("managerProduct", function ($scope, $http,
 
 	/*---------API_ADDPRODUCT------------*/
 	$scope.addProduct = function () {
-<<<<<<< HEAD
-		$scope.form.productName = document.getElementById('productName').value;
-		$scope.form.price = Number(document.getElementById('price').value);
-		$scope.form.category = document.getElementById('category').value;
-		$scope.form.description = document.getElementById('description').value;
-		$scope.form.quantity = Number(document.getElementById('quantity').value);
-=======
-		console.log($scope.form.price)
 		$scope.form.price = Number($scope.form.price);
 		$scope.form.quantity = Number($scope.form.quantity);
->>>>>>> 21f8dea7436d84224457223eee30559be6eb07bd
 		$scope.uploadFileAPI();
 		$http({
 			method: "POST",
@@ -101,24 +80,20 @@ adminApp.controller("managerProduct", function ($scope, $http,
 	/*-----------------API_UPDATEPRODUCT---------------------*/
 	$scope.UpdateProduct = function () {
 		console.log($scope.form.price)
-<<<<<<< HEAD
 		$scope.form.productName = document.getElementById('productName').value;
 		$scope.form.price = Number(document.getElementById('price').value);
 		$scope.form.category = document.getElementById('category').value;
 		$scope.form.quantity = Number(document.getElementById('quantity').value);
 		$scope.form.description = document.getElementById('description').value;
-		$scope.uploadFileAPI();
+		var fileUpload = document.getElementById('inputFile').files;
+		if(fileUpload.length == 0){
+			$scope.form.pictureProduct = document.getElementById('pictureProduct').value;
+		}else{
+			$scope.uploadFileAPI();
+		}
 		$http({
 			method: "PUT",
 			url: path + "/api/manager_product.json?id="+$routeParams.id,
-=======
-		$scope.form.price = Number($scope.form.price);
-		$scope.form.quantity = Number($scope.form.quantity);
-		$scope.uploadFileAPI();
-		$http({
-			method: "PUT",
-			url: path + "/api/manager_product.json?",
->>>>>>> 21f8dea7436d84224457223eee30559be6eb07bd
 			data: angular.toJson($scope.form),
 			headers: {
 				'Content-Type': 'application/json'
@@ -156,7 +131,6 @@ adminApp.controller("managerProduct", function ($scope, $http,
 		});
 	}
 	$scope.findByID = function () {
-<<<<<<< HEAD
 		console.log($routeParams.id);
 		$http({
 			method: 'GET',
@@ -164,13 +138,7 @@ adminApp.controller("managerProduct", function ($scope, $http,
 		}).then(function successCallback(response) {
 			$scope.products = response.data;
 			console.log($scope.products);
-=======
-		$http({
-			method: 'GET',
-			url: path + '/api/selectProductId?id='+$routeParams.id
-		}).then(function successCallback(response) {
-			$scope.products = response.data;
-		}, function errorCallback(response) {
+		},function errorCallback(response) {
 			console.log(response.statusText);
 		});
 	}
@@ -180,7 +148,6 @@ adminApp.controller("managerProduct", function ($scope, $http,
 			url: path + '/api/selectProductNew.json'
 		}).then(function successCallback(response) {
 			$scope.productsNew = response.data;
->>>>>>> 21f8dea7436d84224457223eee30559be6eb07bd
 		}, function errorCallback(response) {
 			console.log(response.statusText);
 		});
@@ -191,10 +158,7 @@ adminApp.controller("managerProduct", function ($scope, $http,
 			url: path + '/api/selectAllProduct.json'
 		}).then(function successCallback(response) {
 			$scope.products = response.data;
-<<<<<<< HEAD
-=======
 			console.log($scope.products);
->>>>>>> 21f8dea7436d84224457223eee30559be6eb07bd
 		}, function errorCallback(response) {
 			console.log(response.statusText);
 		});
@@ -237,16 +201,12 @@ adminApp.controller("managerUser", function ($scope, $http) {
 	};
 
 	_refreshPageData();
-<<<<<<< HEAD
-
-=======
 	$scope.loginUser=[];
 	$scope.loginUser= angular.fromJson(localStorage.getItem('sessionUser'));
 	$scope.logout = function(){
 		window.open(location.origin+"/index.html#!", "_self");
 		localStorage.removeItem("sessionUser");
 	}
->>>>>>> 21f8dea7436d84224457223eee30559be6eb07bd
 	$scope.addUser = function () {
 		$scope.form.price = Number($scope.form.price);
 		$scope.form.quantity = Number($scope.form.quantity);
@@ -270,6 +230,12 @@ adminApp.controller("managerUser", function ($scope, $http) {
 		$scope.form.phoneOrEmail = document.getElementById('phoneOrEmail').value;
 		$scope.form.adress = document.getElementById('adress').value;
 		$scope.form.picture = document.getElementById('name').value;
+		var fileUpload = document.getElementById('inputFile').files;
+		if(fileUpload.length == 0){
+			$scope.form.pictureProduct = document.getElementById('pictureProduct').value;
+		}else{
+			$scope.uploadFileAPI();
+		}
 		$http({
 			method: "PUT",
 			url: path + "/api/manager_user.json?id="+idUser,
@@ -583,12 +549,9 @@ adminApp.controller("managerComment", function ($scope, $http) {
 		$scope.form.content = "";
 	};
 });
-<<<<<<< HEAD
 
 
 /*------------------------end------------------------*/
-=======
->>>>>>> 21f8dea7436d84224457223eee30559be6eb07bd
 adminApp.config(function ($routeProvider) {
 	$routeProvider
 		.when("/", {

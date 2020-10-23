@@ -23,84 +23,6 @@ userApp.controller("managerProduct", function ($scope, $http,
 		base64: "",
 		root: ""
 	}
-	/*---------API_ADDPRODUCT------------*/
-	$scope.addProduct = function () {
-		console.log($scope.form.price)
-		$scope.form.price = Number($scope.form.price);
-		$scope.form.quantity = Number($scope.form.quantity);
-		$scope.uploadFileAPI();
-		$http({
-			method: "POST",
-			url: path + "/api/manager_product.json",
-			data: angular.toJson($scope.form),
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		}).then(_success, _error);
-		
-	}
-
-	/*----------------apiUploadFile-----------------*/
-	$scope.uploadFileAPI = function () {
-		/*-------------------convertBase64----------------*/
-		//lấy giá trị của file
-		var selectedFile = document.getElementById("inputFile").files;
-		//kiểm tra file có giá trị không
-		if (selectedFile.length > 0) {
-			//lấy phần tử của file
-			var fileToLoad = selectedFile[0];
-			$scope.form.pictureProduct = fileToLoad.name;
-			$scope.fileUpload.fileName = fileToLoad.name;
-			// khởi tạo fileReader để đọc giá trị file
-			var fileReader = new FileReader();
-			//set giá trị pictureProduct trong mảng form
-			$scope.form.pictureProduct = fileToLoad.name;
-			$scope.fileUpload.root = urlUploadFile;
-			fileReader.addEventListener("load", function (e) {
-				//convert giá trị file sang base64
-				var basefile = e.target.result;
-				$scope.fileUpload.base64 = basefile.split(",")[1];
-				$scope.fileUpload.fileName = fileToLoad.name;
-			}, false);
-			// Convert data sang base64
-			if (fileToLoad) {
-				fileReader.readAsDataURL(fileToLoad);
-			}
-		}
-		$http({
-			method: "POST",
-			//url gọi api
-			url: path + "/api/uploadFile.json",
-			data: angular.toJson($scope.fileUpload),
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		}).then(_success, _error);
-	}
-
-	/*-----------------API_UPDATEPRODUCT---------------------*/
-	$scope.UpdateProduct = function () {
-		console.log($scope.form.price)
-		$scope.form.price = Number($scope.form.price);
-		$scope.form.quantity = Number($scope.form.quantity);
-		$scope.uploadFileAPI();
-		$http({
-			method: "PUT",
-			url: path + "/api/manager_product.json?",
-			data: angular.toJson($scope.form),
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		}).then(_success, _error);
-	}
-
-	/*-----------------API_DeleteProduct---------------------*/
-	$scope.deleteProduct = function(id) {
-		$http({
-			method: "DELETE",
-			url: path + "/api/manager_product.json?id="+id
-		}).then(_success, _error);
-	}
 
 	/*-----------------API_Select---------------------*/
 	$scope.findByName = function () {
@@ -221,7 +143,6 @@ userApp.controller("managerUser", function ($scope, $http) {
 					$scope.user = null;
 					$scope.loginUser = angular.fromJson(localStorage.getItem('sessionUser'));
 					console.log(typeof $scope.loginUser)
-					location.reload();
 					checkUser();
 					if($scope.loginUser.position == true){
 						window.open(location.origin+"/admin/homeAdmin.html", "_self");
@@ -235,6 +156,43 @@ userApp.controller("managerUser", function ($scope, $http) {
 		}else{
 			$scope.error = "Tài Khoản Và Mật Khẩu Không Được Để Trống";
 		}
+	}
+	/*----------------apiUploadFile-----------------*/
+	$scope.uploadFileAPI = function () {
+		/*-------------------convertBase64----------------*/
+		//lấy giá trị của file
+		var selectedFile = document.getElementById("inputFile").files;
+		//kiểm tra file có giá trị không
+		if (selectedFile.length > 0) {
+			//lấy phần tử của file
+			var fileToLoad = selectedFile[0];
+			$scope.form.pictureProduct = fileToLoad.name;
+			$scope.fileUpload.fileName = fileToLoad.name;
+			// khởi tạo fileReader để đọc giá trị file
+			var fileReader = new FileReader();
+			//set giá trị pictureProduct trong mảng form
+			$scope.form.pictureProduct = fileToLoad.name;
+			$scope.fileUpload.root = urlUploadFile;
+			fileReader.addEventListener("load", function (e) {
+				//convert giá trị file sang base64
+				var basefile = e.target.result;
+				$scope.fileUpload.base64 = basefile.split(",")[1];
+				$scope.fileUpload.fileName = fileToLoad.name;
+			}, false);
+			// Convert data sang base64
+			if (fileToLoad) {
+				fileReader.readAsDataURL(fileToLoad);
+			}
+		}
+		$http({
+			method: "POST",
+			//url gọi api
+			url: path + "/api/uploadFile.json",
+			data: angular.toJson($scope.fileUpload),
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		}).then(_success, _error);
 	}
 	$scope.addUser = function () {
 		$scope.form.price = Number($scope.form.price);
@@ -263,6 +221,12 @@ userApp.controller("managerUser", function ($scope, $http) {
 		$scope.form.phoneOrEmail = document.getElementById('phoneOrEmail').value;
 		$scope.form.adress = document.getElementById('adress').value;
 		$scope.form.picture = document.getElementById('name').value;
+		var fileUpload = document.getElementById('inputFile').files;
+		if(fileUpload.length == 0){
+			$scope.form.pictureProduct = document.getElementById('pictureProduct').value;
+		}else{
+			$scope.uploadFileAPI();
+		}
 		$http({
 			method: "PUT",
 			url: path + "/api/manager_user.json?id="+idUser,
