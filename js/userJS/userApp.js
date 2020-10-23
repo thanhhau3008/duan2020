@@ -1,29 +1,19 @@
-var adminApp = angular.module("adminApp", ["ngRoute"]);
-<<<<<<< HEAD
-const path = "http://webnoithat.j.layershift.co.uk";//link server
-var urlUploadFile = "C://update/";
-=======
+var userApp = angular.module("userApp", ["ngRoute"]);
 const path = "http://localhost:8080/Web_NoiThat";//link server
 var urlUploadFile = "http://127.0.0.1:5500/update/";
->>>>>>> 21f8dea7436d84224457223eee30559be6eb07bd
 
 /*---------------------routing---------------------*/
-adminApp.controller("managerProduct", function ($scope, $http,
+userApp.controller("managerProduct", function ($scope, $http,
 	$routeParams) {
 	$scope.products = [];
-<<<<<<< HEAD
-=======
+	$scope.productsByCategory = [];
 	$scope.productsNew = [];
->>>>>>> 21f8dea7436d84224457223eee30559be6eb07bd
 	$scope.form = {
 		id: -1,
 		productName: "",
 		price: 0,
 		category: "",
-<<<<<<< HEAD
-=======
 		note: "",
->>>>>>> 21f8dea7436d84224457223eee30559be6eb07bd
 		description: "",
 		quantity: 0,
 		pictureProduct: "",
@@ -33,21 +23,11 @@ adminApp.controller("managerProduct", function ($scope, $http,
 		base64: "",
 		root: ""
 	}
-	_refreshPageData();
-
 	/*---------API_ADDPRODUCT------------*/
 	$scope.addProduct = function () {
-<<<<<<< HEAD
-		$scope.form.productName = document.getElementById('productName').value;
-		$scope.form.price = Number(document.getElementById('price').value);
-		$scope.form.category = document.getElementById('category').value;
-		$scope.form.description = document.getElementById('description').value;
-		$scope.form.quantity = Number(document.getElementById('quantity').value);
-=======
 		console.log($scope.form.price)
 		$scope.form.price = Number($scope.form.price);
 		$scope.form.quantity = Number($scope.form.quantity);
->>>>>>> 21f8dea7436d84224457223eee30559be6eb07bd
 		$scope.uploadFileAPI();
 		$http({
 			method: "POST",
@@ -101,24 +81,12 @@ adminApp.controller("managerProduct", function ($scope, $http,
 	/*-----------------API_UPDATEPRODUCT---------------------*/
 	$scope.UpdateProduct = function () {
 		console.log($scope.form.price)
-<<<<<<< HEAD
-		$scope.form.productName = document.getElementById('productName').value;
-		$scope.form.price = Number(document.getElementById('price').value);
-		$scope.form.category = document.getElementById('category').value;
-		$scope.form.quantity = Number(document.getElementById('quantity').value);
-		$scope.form.description = document.getElementById('description').value;
-		$scope.uploadFileAPI();
-		$http({
-			method: "PUT",
-			url: path + "/api/manager_product.json?id="+$routeParams.id,
-=======
 		$scope.form.price = Number($scope.form.price);
 		$scope.form.quantity = Number($scope.form.quantity);
 		$scope.uploadFileAPI();
 		$http({
 			method: "PUT",
 			url: path + "/api/manager_product.json?",
->>>>>>> 21f8dea7436d84224457223eee30559be6eb07bd
 			data: angular.toJson($scope.form),
 			headers: {
 				'Content-Type': 'application/json'
@@ -145,31 +113,24 @@ adminApp.controller("managerProduct", function ($scope, $http,
 			console.log(response.statusText);
 		});
 	}
-	$scope.findByCategory = function () {
+	$scope.findByCategory = function (category) {
+		console.log(category)
 		$http({
 			method: 'GET',
-			url: path + '/api/selectProductByCategory.json?category='
+			url: path + '/api/selectProductByCategory.json?category='+category
 		}).then(function successCallback(response) {
-			$scope.products = response.data;
+			$scope.productsByCategory = response.data;
 		}, function errorCallback(response) {
 			console.log(response.statusText);
 		});
 	}
 	$scope.findByID = function () {
-<<<<<<< HEAD
-		console.log($routeParams.id);
 		$http({
 			method: 'GET',
 			url: path + '/api/selectProductByID.json?id='+$routeParams.id
 		}).then(function successCallback(response) {
 			$scope.products = response.data;
-			console.log($scope.products);
-=======
-		$http({
-			method: 'GET',
-			url: path + '/api/selectProductId?id='+$routeParams.id
-		}).then(function successCallback(response) {
-			$scope.products = response.data;
+			$scope.findByCategory($scope.products[0].category);
 		}, function errorCallback(response) {
 			console.log(response.statusText);
 		});
@@ -180,7 +141,6 @@ adminApp.controller("managerProduct", function ($scope, $http,
 			url: path + '/api/selectProductNew.json'
 		}).then(function successCallback(response) {
 			$scope.productsNew = response.data;
->>>>>>> 21f8dea7436d84224457223eee30559be6eb07bd
 		}, function errorCallback(response) {
 			console.log(response.statusText);
 		});
@@ -191,10 +151,7 @@ adminApp.controller("managerProduct", function ($scope, $http,
 			url: path + '/api/selectAllProduct.json'
 		}).then(function successCallback(response) {
 			$scope.products = response.data;
-<<<<<<< HEAD
-=======
 			console.log($scope.products);
->>>>>>> 21f8dea7436d84224457223eee30559be6eb07bd
 		}, function errorCallback(response) {
 			console.log(response.statusText);
 		});
@@ -222,7 +179,7 @@ adminApp.controller("managerProduct", function ($scope, $http,
 });
 
 /*--------------managerUser--------------*/
-adminApp.controller("managerUser", function ($scope, $http) {
+userApp.controller("managerUser", function ($scope, $http) {
 	$scope.users = [];
 	$scope.form = {
 		id: -1,
@@ -235,18 +192,50 @@ adminApp.controller("managerUser", function ($scope, $http) {
 		picture: "",
 		position: 0,
 	};
-
-	_refreshPageData();
-<<<<<<< HEAD
-
-=======
+	$scope.mesenger = "";
 	$scope.loginUser=[];
-	$scope.loginUser= angular.fromJson(localStorage.getItem('sessionUser'));
-	$scope.logout = function(){
-		window.open(location.origin+"/index.html#!", "_self");
-		localStorage.removeItem("sessionUser");
+	$scope.displayUser;
+	$scope.error="";
+	_refreshPageData();
+	checkUser();
+	function checkUser(){
+		$scope.loginUser = angular.fromJson(localStorage.getItem('sessionUser'));
+		console.log($scope.loginUser)
+		if($scope.loginUser === null){
+			$scope.displayUser="false";
+		}else{
+			$scope.displayUser="true";
+		}
 	}
->>>>>>> 21f8dea7436d84224457223eee30559be6eb07bd
+	$scope.logout = function(){
+		localStorage.removeItem("sessionUser");
+		location.reload();
+	}
+	$scope.login = function(){
+		if($scope.form.account!="" && $scope.form.account!=""){
+			for(var i = 0;i<$scope.users.length;i++){
+				if($scope.form.account===$scope.users[i].account && $scope.form.password===$scope.users[i].password){
+					$scope.user=$scope.users[i];
+					localStorage.setItem('sessionUser',angular.toJson($scope.user));
+					
+					$scope.user = null;
+					$scope.loginUser = angular.fromJson(localStorage.getItem('sessionUser'));
+					console.log(typeof $scope.loginUser)
+					location.reload();
+					checkUser();
+					if($scope.loginUser.position == true){
+						window.open(location.origin+"/admin/homeAdmin.html", "_self");
+					}else{
+						return false;
+					}
+				}else{
+					$scope.error = "Tài Khoản Hoặc Mật Khẩu Không Đúng";
+				}
+			}
+		}else{
+			$scope.error = "Tài Khoản Và Mật Khẩu Không Được Để Trống";
+		}
+	}
 	$scope.addUser = function () {
 		$scope.form.price = Number($scope.form.price);
 		$scope.form.quantity = Number($scope.form.quantity);
@@ -259,7 +248,11 @@ adminApp.controller("managerUser", function ($scope, $http) {
 			headers: {
 				'Content-Type': 'application/json'
 			}
-		}).then(_success, _error);
+		}).then(function success(){
+			$scope.mesenger = "Đăng Ký Thành Công!"
+		}, function error(){
+			$scope.mesenger = "Đăng Ký Thất Bại!"
+		});
 	}
 	$scope.updateUser = function () {
 		//lấy giá trị từ các trường gán cho mảng form
@@ -358,7 +351,7 @@ adminApp.controller("managerUser", function ($scope, $http) {
 });
 
 /*--------------managerBill---------*/
-adminApp.controller("managerBill", function ($scope, $http) {
+userApp.controller("managerBill", function ($scope, $http) {
 	$scope.Bill = [];
 	$scope.form = {
 		id: -1,
@@ -439,7 +432,7 @@ adminApp.controller("managerBill", function ($scope, $http) {
 });
 
 /*--------------managerDiscount---------*/
-adminApp.controller("managerDiscount", function ($scope, $http) {
+userApp.controller("managerDiscount", function ($scope, $http) {
 	$scope.discounts = [];
 	$scope.form = {
 		id: "",
@@ -511,7 +504,7 @@ adminApp.controller("managerDiscount", function ($scope, $http) {
 });
 
 /*--------------managerComment---------*/
-adminApp.controller("managerComment", function ($scope, $http) {
+userApp.controller("managerComment", function ($scope, $http) {
 	$scope.Comment = [];
 	$scope.form = {
 		id: -1,
@@ -583,36 +576,12 @@ adminApp.controller("managerComment", function ($scope, $http) {
 		$scope.form.content = "";
 	};
 });
-<<<<<<< HEAD
-
-
-/*------------------------end------------------------*/
-=======
->>>>>>> 21f8dea7436d84224457223eee30559be6eb07bd
-adminApp.config(function ($routeProvider) {
+userApp.config(function ($routeProvider) {
 	$routeProvider
 		.when("/", {
-			templateUrl: "../admin/listProduct.html"
+			templateUrl: "listProduct.html"
 		})
-		.when("/addProduct", {
-			templateUrl: "../admin/addProduct.html"
-		})
-		.when("/updateProduct/:id", {
-			templateUrl: "../admin/updateProduct.html"
-		})
-		.when("/listProduct", {
-			templateUrl: "../admin/listProduct.html"
-		})
-		.when("/managerComment", {
-			templateUrl: "../admin/managerComment.html"
-		})
-		.when("/managerBill", {
-			templateUrl: "../admin/managerBill.html"
-		})
-		.when("/updateAccount", {
-			templateUrl: "../admin/updateAccount.html"
-		})
-		.when("/managerAccount", {
-			templateUrl: "../admin/managerAccount.html"
+		.when("/ProductDetail/:id", {
+			templateUrl: "product-detal.html"
 		})
 });
